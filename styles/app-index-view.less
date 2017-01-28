@@ -1,0 +1,63 @@
+.index-view {
+  display: flex;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+
+  .buttons-container {
+    margin-bottom: 30px;
+    display: flex;
+    width: 100%;
+    height: 40px;
+
+    .create-new-entry {
+      width: 90px;
+      margin-left: 10px;
+      height: 40px;
+      background: white;
+      border: 0;
+      border-radius: 2px;
+
+      a {
+        color: #304a65;
+        text-decoration: none;
+        width: 100%;
+        height: 100%;
+        display: block;
+        line-height: 40px;
+      }
+    }
+  }
+
+  .entry-list-container {
+    flex: 1;
+    overflow: auto;
+  }
+
+  .entry-item {
+    cursor: pointer;
+    border: 1px solid gray;
+    margin-bottom: 10px;
+    padding: 5px;
+
+    .entry-details {
+      color: inherit;
+      text-decoration: none;
+      display: block;
+    }
+
+    .title {
+      border-right: 1px solid gray;
+      padding-right: 5px;
+      margin-right: 5px;
+    }
+
+    .edit-entry {
+      display: inline-block;
+      float: right;
+      border-left: 1px solid gray;
+      padding-left: 5px;
+      margin-left: 5px;
+    }
+  }
+}
