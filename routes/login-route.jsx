@@ -21,6 +21,14 @@ class LoginRoute extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentWillMount() {
+    if (cookie.load('sessionAuthenticated')) {
+      const afterLogin = this.props.location.state ? this.props.location.state.nextPathname : '/';
+
+      return this.props.router.push(afterLogin);
+    }
+  }
+
   onSubmit(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -38,8 +46,12 @@ class LoginRoute extends React.Component {
       },
       body: JSON.stringify(data)
     }).then((response) => {
-      appState.sessionAuthenticated.assign(true);
-      cookie.save('sessionAuthenticated', true, { path: '/' });
+      if (response.status < 400) {
+        return response.json();
+      }
+    }).then(({ access_token }) => {
+      appState.sessionAuthenticated.assign(access_token);
+      cookie.save('sessionAuthenticated', access_token, { path: '/' });
 
       const afterLogin = this.props.location.state ? this.props.location.state.nextPathname : '/';
 

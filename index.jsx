@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom';
+import cookie from 'react-cookie';
 import { browserHistory, IndexRoute, Route, Router } from 'react-router';
 
 import App from './components/app.jsx';
@@ -11,7 +12,7 @@ import SignupRoute from './routes/signup-route.jsx';
 import appState from './states/app.js';
 
 function requirePassword(nextState, replace) {
-  if (!appState.sessionAuthenticated.length) {
+  if (!cookie.load('sessionAuthenticated')) {
     replace({
       pathname: '/login',
       state: { nextPathname: nextState.location.pathname }

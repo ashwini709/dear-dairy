@@ -42,6 +42,8 @@ def login():
       'created_at': datetime.datetime.now(),
       'expires_in': 86400
     }
+
+    return jsonify(result), 200
   else:
     result = {
       'error': {
@@ -50,7 +52,7 @@ def login():
       }
     }
 
-  return json.dumps(result)
+    return jsonify(result), 401
 
 @jwt_required
 @app.route('/entry', methods=['POST'])
