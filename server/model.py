@@ -1,7 +1,5 @@
 from peewee import *
 
-from werkzeug import generate_password_hash, check_password_hash
-
 mysql_db = MySQLDatabase('dairy', host='localhost', port=3306, user='root', passwd='password')
 
 mysql_db.connect()
