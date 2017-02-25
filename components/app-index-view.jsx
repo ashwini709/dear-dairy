@@ -26,7 +26,7 @@ class AppIndexView extends React.Component {
   }
 
   render() {
-    const { entries } = this.props;
+    const { entries, identity } = this.props;
     const { title } = this.state;
 
     const list = entries.map(({ id, title, text }) => {
@@ -45,6 +45,12 @@ class AppIndexView extends React.Component {
 
     return (
       <div className='index-view'>
+        <div className='header'>
+          <span className='greeting'>Hello {identity}</span>
+          <button className='submit-form' onClick={this.props.logout}>
+            <i className='mdi mdi-power' />
+          </button>
+        </div>
         <div className='buttons-container'>
           <SearchBar
             onChange={this.updateSearchTitle.bind(this)}

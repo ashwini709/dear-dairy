@@ -1,3 +1,5 @@
+import requestHeaders from '../utils/request-headers.js';
+
 const endpoint = 'http://127.0.0.1:5000/entry/';
 
 class EntryStore {
@@ -9,7 +11,7 @@ class EntryStore {
       url += query;
     }
 
-    return fetch(url).then((response) => {
+    return fetch(url, { 'headers': requestHeaders()}).then((response) => {
       if (response.status < 400) {
         return response.json();
       }

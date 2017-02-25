@@ -1,83 +1,81 @@
-from flask import Flask, request, json
+from flask import Flask, request, json, jsonify, session
 from flask_cors import CORS, cross_origin
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from peewee import *
+
+from werkzeug import generate_password_hash, check_password_hash
+
+from entry import create_entry, update_entry, search_entries, get_all_entries
+
+from model import User
 import datetime
 
 app = Flask(__name__)
+app.secret_key = '4V\xcc\x88\x88D\xf5\xcc}>\xb9H\x0bw\xd9\x02\n/\xa3\x9a\xa3\xe3\xcb@'
+
 CORS(app)
+jwt = JWTManager(app)
 
-mysql_db = MySQLDatabase('dairy', host='localhost', port=3306, user='root', passwd='password')
+@app.route('/signup', methods=['POST'])
+def signup():
+  name = "\'" + request.json["name"] + "\'"
+  email = "\'" + request.json["email"] + "\'"
+  password = "\'" + request.json["password"] + "\'"
 
-class Entry(Model):
-    id = PrimaryKeyField()
-    title = CharField()
-    text = CharField()
-    created_at = DateTimeField()
-    updated_at = DateTimeField()
-    class Meta:
-        database = mysql_db
+  pw_hash = generate_password_hash(password)
 
-# Json request: { title, text }, sql query to save, return { id, error }
+  user = User(name=name, email=email, password=pw_hash, created_at=datetime.datetime.now(), updated_at=datetime.datetime.now())
+  user.save()
 
-@app.route('/entry', methods=['POST'])
-def create_entry():
-    title = "\'" + request.json["title"] + "\'"
-    text = "\'" + request.json["text"] + "\'"
+  return json.dumps(user.id)
 
-    entry = Entry(title=title, text=text, created_at=datetime.datetime.now())
-    entry.save()
+@app.route('/login', methods=['POST'])
+def login():
+  email = "\'" + request.json["email"] + "\'"
+  password = "\'" + request.json["password"] + "\'"
 
-    return json.dumps(entry.id)
+  user = User.get(User.email.contains(email))
 
-@app.route('/entry/<entry_id>', methods=['GET', 'PUT'])
-def update_entry(entry_id):
-    entry = Entry.get(Entry.id==entry_id)
-
-    if request.method == 'PUT':
-        entry.title = "\'" + request.json["title"] + "\'"
-        entry.text = "\'" + request.json["text"] + "\'"
-        entry.updated_at=datetime.datetime.now()
-        entry.save()
-
+  if check_password_hash(user.password, password):
     result = {
-        'id': entry.id,
-        'title': entry.title,
-        'text': entry.text,
-        'created_at': entry.created_at,
-        'updated_at': entry.updated_at
+      'access_token': create_access_token(identity=user.name),
+      'created_at': datetime.datetime.now(),
+      'expires_in': 86400
     }
-    return json.dumps(result)
 
+    return jsonify(result), 200
+  else:
+    result = {
+      'error': {
+        'message': 'Unauthorized Authentication',
+        'statusCode': '401'
+      }
+    }
+
+    return jsonify(result), 401
+
+@jwt_required
+@app.route('/entry', methods=['POST'])
+def create_entry_endpoint():
+  return create_entry(request)
+
+
+@jwt_required
+@app.route('/entry/<entry_id>', methods=['GET', 'PUT'])
+def update_entry_endpoint(entry_id):
+  return update_entry(entry_id, request)
+
+
+@jwt_required
 @app.route('/', methods=['GET'])
-def get_all_entries():
-    listy = []
-    for entry in Entry.select():
-        result = {
-            'id': entry.id,
-            'title': entry.title,
-            'text': entry.text,
-            'created_at': entry.created_at,
-            'updated_at': entry.updated_at
-        }
-        listy.append(result)
-    return json.dumps(listy)
+def get_all_entries_endpoint():
+  return get_all_entries()
 
+
+@jwt_required
 @app.route('/search', methods=['GET'])
-def search_entries():
-    title = request.args.get('title')
-    query = Entry.select().where(Entry.title.contains(title))
-
-    listy = []
-    for entry in query:
-        result = {
-            'id': entry.id,
-            'title': entry.title,
-            'text': entry.text,
-            'created_at': entry.created_at,
-            'updated_at': entry.updated_at
-        }
-        listy.append(result)
-    return json.dumps(listy)
+def search_entries_endpoint():
+  return search_entries(request)
 
 if __name__ == "__main__":
-    app.run()
+  app.run()
