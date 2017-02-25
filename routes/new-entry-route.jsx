@@ -8,10 +8,14 @@ const newEntryUrl = 'http://127.0.0.1:5000/entry';
 
 class NewEntryRoute extends React.Component {
 
-  createEntry(data) {
+  createEntry({ text, title }) {
+    if (!text && !title) {
+      return;
+    }
+
     return makeRequestStore.find(newEntryUrl, {
       method: 'POST',
-      body: JSON.stringify(data)
+      body: JSON.stringify({ text, title })
     }).then((id) => {
       const entryRoute = '/entry/' + id;
 

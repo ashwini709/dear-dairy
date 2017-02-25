@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import classNames from 'classnames';
 
 import '../styles/entry-view.less';
 
@@ -40,6 +41,8 @@ class EntryView extends React.Component {
   render() {
     const { title, text } = this.state;
 
+    const disabled = !text || !title;
+
     return (
       <div className='new-entry-container'>
         <input
@@ -54,7 +57,7 @@ class EntryView extends React.Component {
           onChange={this.updateText.bind(this)}
           value={text} />
 
-        <button className='submit-form' onClick={this.save.bind(this)}>Save</button>
+        <button className={classNames(['submit-form', { 'disabled': disabled }])} onClick={this.save.bind(this)}>Save</button>
         <button className='go-back'><Link to='/'>Home</Link></button>
       </div>
     );

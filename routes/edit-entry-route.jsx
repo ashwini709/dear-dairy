@@ -11,6 +11,7 @@ class EditEntryRoute extends React.Component {
     super(props, context);
 
     this.state = {
+      error: null,
       title: '',
       text: ''
     };
@@ -34,14 +35,12 @@ class EditEntryRoute extends React.Component {
     }
 
     entryStore.find(id).then(({ title, text }) => {
-      window.setTimeout(() => {
-        this.setState({
-          error: null,
-          loading: false,
-          title: title,
-          text: text
-        });
-      }, 0);
+      this.setState({
+        error: null,
+        loading: false,
+        title: title,
+        text: text
+      });
     }).catch((error) => {
       console.error(error);
       this.setState({ error, loading: false });
@@ -50,12 +49,16 @@ class EditEntryRoute extends React.Component {
     this.setState({ error: null, loading: true, title, text });
   }
 
-  updateEntry(data) {
+  updateEntry({ text, title }) {
+    if (!text && !title) {
+      return;
+    }
+
     const url = 'http://127.0.0.1:5000/entry/' + this.props.routeParams.id;
 
     return makeRequestStore.find(url, {
       method: 'PUT',
-      body: JSON.stringify(data)
+      body: JSON.stringify({ text, title })
     }).catch((error) => {
       console.error(error);
       this.setState({ error });
