@@ -1,10 +1,11 @@
-import React from 'react';
 import cookie from 'react-cookie';
 import { withRouter } from 'react-router';
 
 import LoginView from '../components/login-view.jsx';
 
-import appState from '../states/app.js';
+import makeRequestStore from '../stores/make-request.js';
+
+const loginUrl = 'http://127.0.0.1:5000/login';
 
 class LoginRoute extends React.Component {
   constructor(props, context) {
@@ -12,8 +13,8 @@ class LoginRoute extends React.Component {
 
     this.state = {
       error: null,
-      password: '',
-      username: ''
+      email: '',
+      password: ''
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -33,35 +34,27 @@ class LoginRoute extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    const { password, username } = this.state;
+    const { email, password } = this.state;
 
-    const data = {email: username, password};
-
-    const url = 'http://127.0.0.1:5000/login';
-
-    return fetch(url, {
+    return makeRequestStore.find(loginUrl, {
       method: 'POST',
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }).then((response) => {
-      if (response.status < 400) {
-        return response.json();
-      }
+      body: JSON.stringify({ email, password })
     }).then(({ access_token }) => {
-      appState.sessionAuthenticated.assign(access_token);
+
       cookie.save('sessionAuthenticated', access_token, { path: '/' });
 
       const afterLogin = this.props.location.state ? this.props.location.state.nextPathname : '/';
-
       this.props.router.push(afterLogin);
-    })
+
+    }).catch((error) => {
+      console.error(error);
+      this.setState({ error });
+    });
   }
 
   handleEmailChange(event) {
-    const username = event.target.value;
-    this.setState({ error: null, username });
+    const email = event.target.value;
+    this.setState({ error: null, email });
   }
 
   handlePasswordChange(event) {

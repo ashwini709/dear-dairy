@@ -1,16 +1,10 @@
 import requestHeaders from '../utils/request-headers.js';
 
-const endpoint = 'http://127.0.0.1:5000/';
+class MakeRequestStore {
+  find(url, options) {
+    options.headers = requestHeaders(options.headers);
 
-class EntrySearchStore {
-  find(query) {
-    let url = endpoint;
-
-    if (query) {
-      url += 'search?title=' + query;
-    }
-
-    return fetch(url, { 'headers': requestHeaders()}).then((response) => {
+    return fetch(url, options).then((response) => {
       if (response.status < 400) {
         return response.json();
       }
@@ -36,6 +30,6 @@ class EntrySearchStore {
   }
 }
 
-const entrySearchStore = new EntrySearchStore();
+const makeRequestStore = new MakeRequestStore();
 
-export default entrySearchStore;
+export default makeRequestStore;

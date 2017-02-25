@@ -45,13 +45,11 @@ class AppIndexRoute extends React.Component {
     }
 
     entrySearchStore.find(title).then((entries) => {
-      window.setTimeout(() => {
-        this.setState({
-          entries,
-          error: null,
-          loading: false
-        });
-      }, 0);
+      this.setState({
+        entries,
+        error: null,
+        loading: false
+      });
     }).catch((error) => {
       console.error(error);
       this.setState({ error, loading: false });
@@ -62,7 +60,10 @@ class AppIndexRoute extends React.Component {
 
   render() {
     return (
-      <AppIndexView {...this.state} search={this.search.bind(this)} logout={this.logout.bind(this)} />
+      <AppIndexView
+        {...this.state}
+        search={this.search.bind(this)}
+        logout={this.logout.bind(this)} />
     );
   }
 }

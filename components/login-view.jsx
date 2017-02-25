@@ -1,9 +1,7 @@
-import React from 'react';
-
 import styles from '../styles/login-view.less';
 
 const LoginView = (props, { locale }) => {
-  const { error, handleEmailChange, handlePasswordChange, onSubmit, password, username } = props;
+  const { email, error, handleEmailChange, handlePasswordChange, onSubmit, password } = props;
 
   return (
     <div className='login-view'>
@@ -11,13 +9,13 @@ const LoginView = (props, { locale }) => {
         <h1 className='title'>Dear Dairy Login</h1>
         <form className='login-form' onSubmit={onSubmit}>
           <input
-            className='username'
-            name='username'
+            className='email'
+            name='email'
             onChange={handleEmailChange}
-            placeholder='Username'
+            placeholder='Email'
             tabIndex='1'
             type='name'
-            value={username} />
+            value={email} />
           <input
             className='password'
             name='password'
@@ -27,7 +25,7 @@ const LoginView = (props, { locale }) => {
             type='password'
             value={password} />
           <button className='submit' tabIndex='3' type='submit'>
-            login
+            Login
           </button>
         </form>
       </div>

@@ -1,7 +1,10 @@
-import React from 'react';
 import { withRouter } from 'react-router';
 
 import SignupView from '../components/signup-view.jsx';
+
+import makeRequestStore from '../stores/make-request.js';
+
+const signupUrl = 'http://127.0.0.1:5000/signup';
 
 class SignupRoute extends React.Component {
   constructor(props, context) {
@@ -32,19 +35,15 @@ class SignupRoute extends React.Component {
       return this.setState({ error: 'password does not match' });
     }
 
-    const data = { email, password, username };
-
-    const url = 'http://127.0.0.1:5000/signup';
-
-    return fetch(url, {
+    return makeRequestStore.find(signupUrl, {
       method: 'POST',
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }).then((response) => {
+      body: JSON.stringify({ email, password, username })
+    }).then(() => {
       this.props.router.push('/login');
-    })
+    }).catch((error) => {
+      console.error(error);
+      this.setState({ error });
+    });
   }
 
   handleEmailChange(event) {

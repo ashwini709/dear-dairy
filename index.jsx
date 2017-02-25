@@ -4,12 +4,10 @@ import { browserHistory, IndexRoute, Route, Router } from 'react-router';
 
 import App from './components/app.jsx';
 import AppIndexRoute from './routes/app-index-route.jsx';
+import EditEntryRoute from './routes/edit-entry-route.jsx';
 import LoginRoute from './routes/login-route.jsx';
 import NewEntryRoute from './routes/new-entry-route.jsx';
-import EditEntryRoute from './routes/edit-entry-route.jsx';
 import SignupRoute from './routes/signup-route.jsx';
-
-import appState from './states/app.js';
 
 function requirePassword(nextState, replace) {
   if (!cookie.load('sessionAuthenticated')) {

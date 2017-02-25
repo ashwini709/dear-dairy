@@ -1,5 +1,3 @@
-import React from "react";
-
 import '../styles/search-bar.less';
 
 const SearchBar = ({ onChange, search, title }) => {

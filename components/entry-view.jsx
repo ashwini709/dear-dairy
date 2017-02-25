@@ -54,7 +54,7 @@ class EntryView extends React.Component {
           onChange={this.updateText.bind(this)}
           value={text} />
 
-        <button className='submit-form' onClick={this.save.bind(this)} >Add</button>
+        <button className='submit-form' onClick={this.save.bind(this)}>Save</button>
         <button className='go-back'><Link to='/'>Home</Link></button>
       </div>
     );

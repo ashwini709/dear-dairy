@@ -4,6 +4,8 @@ import EntryView from '../components/entry-view.jsx';
 
 import entryStore from '../stores/entry.js';
 
+import makeRequestStore from '../stores/make-request.js';
+
 class EditEntryRoute extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -51,15 +53,13 @@ class EditEntryRoute extends React.Component {
   updateEntry(data) {
     const url = 'http://127.0.0.1:5000/entry/' + this.props.routeParams.id;
 
-    return fetch(url, {
+    return makeRequestStore.find(url, {
       method: 'PUT',
-      headers: {
-        "Content-type": "application/json"
-      },
       body: JSON.stringify(data)
-    }).then((response) => {
-
-    })
+    }).catch((error) => {
+      console.error(error);
+      this.setState({ error });
+    });
   }
 
   render() {

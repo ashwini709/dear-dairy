@@ -2,20 +2,24 @@ import { withRouter } from 'react-router';
 
 import EntryView from '../components/entry-view.jsx';
 
-import entryStore from '../stores/entry.js';
+import makeRequestStore from '../stores/make-request.js';
+
+const newEntryUrl = 'http://127.0.0.1:5000/entry';
 
 class NewEntryRoute extends React.Component {
 
   createEntry(data) {
-    return fetch('http://127.0.0.1:5000/entry', {
-      method: 'post',
-      headers: {
-        "Content-type": "application/json"
-      },
+    return makeRequestStore.find(newEntryUrl, {
+      method: 'POST',
       body: JSON.stringify(data)
-    }).then((response) => {
+    }).then((id) => {
+      const entryRoute = '/entry/' + id;
 
-    })
+      this.props.router.push(entryRoute);
+    }).catch((error) => {
+      console.error(error);
+      this.setState({ error });
+    });
   }
 
   render() {

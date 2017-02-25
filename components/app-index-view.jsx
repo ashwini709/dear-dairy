@@ -46,7 +46,7 @@ class AppIndexView extends React.Component {
     return (
       <div className='index-view'>
         <div className='header'>
-          <h4 className='greeting'>Hello {identity}</h4>
+          <span className='greeting'>Hello {identity}</span>
           <button className='submit-form' onClick={this.props.logout}>
             <i className='mdi mdi-power' />
           </button>
