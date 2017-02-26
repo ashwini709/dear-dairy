@@ -1,4 +1,5 @@
 var ip = require('ip');
+var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
@@ -11,49 +12,47 @@ module.exports = {
     './index.jsx'
   ],
   output: {
-    path: __dirname,
+    path: path.join(__dirname, 'dist'),
     filename: "bundle.js",
-    publicPath: "/"
+    publicPath: ""
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        loader: 'babel',
-        exclude: /(node_modules|bower_components)/,
+        loader: 'babel-loader',
+        exclude: /(node_modules)/,
         query: {
-          cacheDirectory: true,
+          cacheDirectory: 'babel-cache',
           presets: ['es2015', 'react']
         }
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json-loader'
       },
       {
         test: /\.less$/,
-        loader: 'style!css!less'
+        loaders: [
+          'style-loader',
+          'css-loader',
+          'less-loader'
+        ]
       },
       {
-        test: /\.(jpg|png|svg)$/,
-        loader: 'file'
-      },
-      {
-        test: /\.(html|png|txt)$/,
-        loader: 'file?name=[name].[ext]'
-      },
-      {
-          test: /\.(eot|svg|ttf|woff|woff2)$/,
-          loader: 'file?name=assets/fonts/[name].[ext]'
+        test: /\.(eot|html|ico|jpg|png|svg|ttf|txt|woff|woff2|xml)$/,
+        loader: 'file-loader',
+        query: {
+          name: '[path][name].[ext]'
+        }
       }
     ]
   },
   plugins: [
     new webpack.ProvidePlugin({
       'React': 'react',
-      'Promise': 'exports?global.Promise!es6-promise',
-      'fetch': 'exports?self.fetch!whatwg-fetch'
+      'Promise': 'es6-promise',
+      'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
     })
-  ],
-  historyApiFallback: true
+  ]
 }
