@@ -1,11 +1,13 @@
 import cookie from 'react-cookie';
 import { withRouter } from 'react-router';
 
+import config from '../config/environment.js';
+
 import LoginView from '../components/login-view.jsx';
 
 import makeRequestStore from '../stores/make-request.js';
 
-const loginUrl = 'http://127.0.0.1:5000/login';
+const loginUrl = config.serverUrl + '/login';
 
 class LoginRoute extends React.Component {
   constructor(props, context) {

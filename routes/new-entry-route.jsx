@@ -1,10 +1,12 @@
 import { withRouter } from 'react-router';
 
+import config from '../config/environment.js';
+
 import EntryView from '../components/entry-view.jsx';
 
 import makeRequestStore from '../stores/make-request.js';
 
-const newEntryUrl = 'http://127.0.0.1:5000/entry';
+const newEntryUrl = config.serverUrl + '/entry';
 
 class NewEntryRoute extends React.Component {
 

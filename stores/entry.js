@@ -1,6 +1,8 @@
 import requestHeaders from '../utils/request-headers.js';
 
-const endpoint = 'http://127.0.0.1:5000/entry/';
+import config from '../config/environment.js';
+
+const endpoint = config.serverUrl + '/entry/';
 
 class EntryStore {
   find(query) {

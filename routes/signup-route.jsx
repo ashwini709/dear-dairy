@@ -1,10 +1,12 @@
 import { withRouter } from 'react-router';
 
+import config from '../config/environment.js';
+
 import SignupView from '../components/signup-view.jsx';
 
 import makeRequestStore from '../stores/make-request.js';
 
-const signupUrl = 'http://127.0.0.1:5000/signup';
+const signupUrl = config.serverUrl + '/signup';
 
 class SignupRoute extends React.Component {
   constructor(props, context) {

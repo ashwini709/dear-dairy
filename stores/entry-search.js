@@ -1,13 +1,15 @@
 import requestHeaders from '../utils/request-headers.js';
 
-const endpoint = 'http://127.0.0.1:5000/';
+import config from '../config/environment.js';
+
+const endpoint = config.serverUrl;
 
 class EntrySearchStore {
   find(query) {
     let url = endpoint;
 
     if (query) {
-      url += 'search?title=' + query;
+      url += '/search?title=' + query;
     }
 
     return fetch(url, { 'headers': requestHeaders()}).then((response) => {
