@@ -1,9 +1,10 @@
 import { withRouter } from 'react-router';
 
+import config from '../config/environment.js';
+
 import EntryView from '../components/entry-view.jsx';
 
 import entryStore from '../stores/entry.js';
-
 import makeRequestStore from '../stores/make-request.js';
 
 class EditEntryRoute extends React.Component {
@@ -54,7 +55,7 @@ class EditEntryRoute extends React.Component {
       return;
     }
 
-    const url = 'http://127.0.0.1:5000/entry/' + this.props.routeParams.id;
+    const url = config.serverUrl + '/entry/' + this.props.routeParams.id;
 
     return makeRequestStore.find(url, {
       method: 'PUT',

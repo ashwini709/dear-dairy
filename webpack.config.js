@@ -49,6 +49,9 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development'
+    }),
     new webpack.ProvidePlugin({
       'React': 'react',
       'Promise': 'es6-promise',
