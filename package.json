@@ -1,6 +1,6 @@
 {
   "name": "dear-dairy",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "",
   "scripts": {
     "build": "webpack --config webpack-production.config.js",
