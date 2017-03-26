@@ -1,12 +1,12 @@
 {
   "name": "dear-dairy",
   "version": "0.1.1",
-  "description": "",
+  "description": "Small practice project with react and python flask",
   "scripts": {
     "build": "webpack --config webpack-production.config.js",
     "start": "webpack-dev-server --progress --inline --hot --colors --port 8090 --host 0.0.0.0"
   },
-  "author": "",
+  "author": "Ashwini",
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
