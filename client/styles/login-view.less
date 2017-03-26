@@ -18,12 +18,24 @@
     color: #fff;
   }
 
-  .login-form {
+  .login-form, .alternate-option {
     margin-bottom: @gutter*2;
     padding: @gutter;
   }
 
-  .submit {
+  .alternate-option {
+    position: relative;
+    .or-text {
+      position: absolute;
+      top: 10px;
+      background: #304a65;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0 3px;
+    }
+  }
+
+  button {
     padding: @gutter @gutter/2;
     text-align: center;
     text-transform: uppercase;
@@ -40,5 +52,14 @@
 
   input {
     margin-bottom: @gutter;
+  }
+
+  hr {
+    margin-bottom: @gutter*3;
+  }
+
+  .to-login {
+    color: white;
+    padding: @gutter;
   }
 }

@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 import styles from '../styles/login-view.less';
 
 const SignupView = (props, { locale }) => {
@@ -44,6 +46,12 @@ const SignupView = (props, { locale }) => {
             Signup
           </button>
         </form>
+        <div className='alternate-option'>
+          <span className='login-text'>Already have an account?</span>
+          <Link to={`/login`} className='to-login'>
+            Login
+          </Link>
+        </div>
       </div>
     </div>
   );
