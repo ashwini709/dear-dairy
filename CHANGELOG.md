@@ -2,6 +2,11 @@
 
 ## Dear Dairy
 
+## 0.1.2 - 2017-03-26
+- Restructure client side code into client directory (@ashwini709)
+- Changes to gitignore as per global gitignore (@ashwini709)
+- Signup login option to connect users with/without accounts (@ashwini709)
+
 ## 0.1.1 - 2017-03-11
 - Shouldn't allow creating/saving the entry if any of the text or title are empty (@ashwini709)
 - Upgrade dependencies, update webpack to version 2 (@ashwini709)
